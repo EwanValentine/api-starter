@@ -18,14 +18,6 @@ func NewThingRepository(db *gorm.DB) *ThingRepository {
 	}
 }
 
-// This sets a blank time, DeletedAt defaults to a null time
-// type otherwise, which breaks get queries if `DeletedAt` doesn't
-// match null.
-type NullTime struct {
-	time.Time
-	Valid bool
-}
-
 // Thing model
 type Thing struct {
 	ID        string `gorm:"primary_key:true"`
@@ -33,7 +25,7 @@ type Thing struct {
 	Amount    int    `json:"amount"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt NullTime
+	DeletedAt *time.Time
 }
 
 // Lifecycle callback - Generate UUID before persisting
