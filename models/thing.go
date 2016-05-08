@@ -31,7 +31,7 @@ type Thing struct {
 	DeletedAt NullTime
 }
 
-func (thing *ThingRepository) BeforeCreate(scope *gorm.Scope) error {
+func (thing *Thing) BeforeCreate(scope *gorm.Scope) error {
 	scope.SetColumn("ID", uuid.NewV4().String())
 	return nil
 }
@@ -46,4 +46,8 @@ func (repository *ThingRepository) FindAll() ([]Thing, error) {
 	}
 
 	return things, nil
+}
+
+func (repository *ThingRepository) Insert(thing Thing) error {
+	return repository.db.Create(&thing).Error
 }

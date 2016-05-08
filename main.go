@@ -52,12 +52,12 @@ func main() {
 	handlers := handlers.NewHandler(thingRepository)
 
 	e.GET("/api/v1/things", handlers.FindAll)
+	e.POST("/api/v1/things", handlers.Insert)
 	/*
-		e.POST("/api/v1/things", handlers.Insert)
 		e.GET("/api/v1/things/:id", handlers.Find)
 		e.PATCH("/api/v1/things/:id", handlers.Update)
 		e.DELETE("/api/v1/things/:id", handlers.Remove)
 	*/
 
-	e.Run(fasthttp.New(":1000"))
+	e.Run(fasthttp.New(":5000"))
 }

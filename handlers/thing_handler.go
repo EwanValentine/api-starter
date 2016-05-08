@@ -31,7 +31,7 @@ func (handler *ThingHandler) FindAll(c echo.Context) error {
 	things, err := handler.datastore.FindAll()
 
 	if err != nil {
-		return c.JSON(404, &Error{
+		return c.JSON(http.StatusNotFound, &Error{
 			Code:    http.StatusNotFound,
 			Message: "No things found",
 		})
@@ -43,4 +43,21 @@ func (handler *ThingHandler) FindAll(c echo.Context) error {
 			"_link": "/api/v1/things",
 		},
 	})
+}
+
+func (handler *ThingHandler) Insert(c echo.Context) error {
+	var thing models.Thing
+
+	c.Bind(&thing)
+
+	err := handler.datastore.Insert(thing)
+
+	if err != nil {
+		return c.JSON(422, &Error{
+			Code:    422,
+			Message: "Unprocessable entity",
+		})
+	}
+
+	return c.JSON(http.StatusCreated, nil)
 }

@@ -8,7 +8,7 @@ import (
 // Datastore - fetch instance of mongodb session
 func DB() *gorm.DB {
 
-	db, err := gorm.Open("postgres", "postgres://postgres@auth-datastore/postgres?sslmode=disable")
+	db, err := gorm.Open("postgres", "postgres://postgres@localhost/postgres?sslmode=disable")
 
 	db.LogMode(true)
 
