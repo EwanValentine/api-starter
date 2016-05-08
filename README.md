@@ -17,5 +17,5 @@ You can build this the easy way `go build`, or `go run main.go`. Or you can use 
 Again, you can run it on your host `go run main.go` or `./api-starter` if you've already compiled the binary. Or you can run within Docker `make run` (be sure to have ran `make` first for this). 
 
 ## Use
-1. Create some dummy data `$ curl -i -XPOST --url http://localhost:7000/api/v1/things -d '{ "title": "This is a test", "amount": 12 }' --header "Content-Type: application/json"` 
-2. Check it was created `$ curl -i -XGET --url http://localhost:7000/api/v1/things`
+1. Create some dummy data `$ curl -i -XPOST --url http://localhost:5000/api/v1/things -d '{ "title": "This is a test", "amount": 12 }' --header "Content-Type: application/json"` 
+2. Check it was created `$ curl -i -XGET --url http://localhost:5000/api/v1/things`
