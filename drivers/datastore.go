@@ -2,12 +2,18 @@ package drivers
 
 import (
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // DB - fetch instance of mongodb session
-func DB() *gorm.DB {
+func DB(user, pass, host, name string) *gorm.DB {
 
-	db, err := gorm.Open("postgres", "postgres://postgres@localhost/postgres?sslmode=disable")
+	var connection string
+
+	// Connection string
+	connection = "postgres://" + user + ":" + pass + "@" + host + "/" + name + "?sslmode=disable"
+
+	db, err := gorm.Open("postgres", connection)
 
 	db.LogMode(true)
 
@@ -17,6 +23,8 @@ func DB() *gorm.DB {
 
 	// Ping function checks the database connectivity
 	err = db.DB().Ping()
+
+	// We have to panic at this stage as api is unusable
 	if err != nil {
 		panic(err)
 	}

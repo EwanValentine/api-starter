@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/EwanValentine/api-starter/drivers"
 	"github.com/EwanValentine/api-starter/handlers"
 	"github.com/EwanValentine/api-starter/models"
@@ -8,6 +10,7 @@ import (
 	"github.com/labstack/echo/engine/fasthttp"
 	"github.com/labstack/echo/middleware"
 	"log"
+	"os"
 	"runtime"
 )
 
@@ -21,20 +24,42 @@ func Init() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 }
 
+// Config - Config object
 type Config struct {
-	Port   int `json:"port"`
-	DBHost int `json:"db_host"`
-	DBPass int `json:"db_pass"`
+	Port   string `json:"port"`
+	DBHost string `json:"db_host"`
+	DBPass string `json:"db_pass"`
+	DBUser string `json:"db_user"`
+	DBPort int    `json:"db_port"`
+	DBName string `json:"db_name"`
 }
 
 func main() {
 
 	Init()
 
-	datastore := drivers.DB()
+	var config Config
+
+	// Configure
+	file, _ := os.Open("./config.json")
+	decoder := json.NewDecoder(file)
+
+	err := decoder.Decode(&config)
+
+	// Configuration file incorrect or not found
+	if err != nil {
+		panic(err)
+	}
+
+	datastore := drivers.DB(
+		config.DBUser,
+		config.DBPass,
+		config.DBHost,
+		config.DBName,
+	)
 
 	// Migrate changes
-	drivers.DB().AutoMigrate(&models.Thing{})
+	datastore.AutoMigrate(&models.Thing{})
 
 	e := echo.New()
 
@@ -66,5 +91,7 @@ func main() {
 		e.DELETE("/api/v1/things/:id", handlers.Remove)
 	*/
 
-	e.Run(fasthttp.New(":5000"))
+	fmt.Println("Connecting on port " + config.Port)
+
+	e.Run(fasthttp.New(":" + config.Port))
 }
