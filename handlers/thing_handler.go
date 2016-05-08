@@ -11,7 +11,7 @@ type ThingHandler struct {
 	datastore *models.ThingRepository
 }
 
-// NewHandler - Creates new instance of ThingHandler
+// NewThingHandler - Creates new instance of ThingHandler
 func NewThingHandler(datastore *models.ThingRepository) *ThingHandler {
 	return &ThingHandler{
 		datastore,

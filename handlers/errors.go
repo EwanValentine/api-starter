@@ -9,11 +9,13 @@ type Error struct {
 }
 
 var (
+	// NotFound - Basic 404 response
 	NotFound = &Error{
 		Message: "Resource not found",
 		Code:    http.StatusNotFound,
 	}
 
+	// Unprocessable - 422 response type
 	Unprocessable = &Error{
 		Message: "Entity unprocessable",
 		Code:    422,
