@@ -2,26 +2,31 @@ package models
 
 import (
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/satori/go.uuid"
 	"time"
 )
 
+// Repository object for `things`
 type ThingRepository struct {
 	db *gorm.DB
 }
 
+// Create a new instance of `ThingRepository` database instance injected
 func NewThingRepository(db *gorm.DB) *ThingRepository {
 	return &ThingRepository{
 		db,
 	}
 }
 
+// This sets a blank time, DeletedAt defaults to a null time
+// type otherwise, which breaks get queries if `DeletedAt` doesn't
+// match null.
 type NullTime struct {
 	time.Time
 	Valid bool
 }
 
+// Thing model
 type Thing struct {
 	ID        string `gorm:"primary_key:true"`
 	Title     string `json:"title"`
@@ -31,11 +36,13 @@ type Thing struct {
 	DeletedAt NullTime
 }
 
+// Lifecycle callback - Generate UUID before persisting
 func (thing *Thing) BeforeCreate(scope *gorm.Scope) error {
 	scope.SetColumn("ID", uuid.NewV4().String())
 	return nil
 }
 
+// Find all of the things
 func (repository *ThingRepository) FindAll() ([]Thing, error) {
 	var things []Thing
 
@@ -48,6 +55,7 @@ func (repository *ThingRepository) FindAll() ([]Thing, error) {
 	return things, nil
 }
 
+// Create a thing
 func (repository *ThingRepository) Insert(thing Thing) error {
 	return repository.db.Create(&thing).Error
 }

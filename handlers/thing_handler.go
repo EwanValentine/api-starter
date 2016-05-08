@@ -6,26 +6,31 @@ import (
 	"net/http"
 )
 
+// Http error
 type Error struct {
 	Message string `json:"_message"`
 	Code    int    `json:"_code"`
 }
 
+// Http response
 type Response struct {
 	Data interface{}            `json:"data"`
 	Meta map[string]interface{} `json:"_meta"`
 }
 
+// ThingHandler - accepts ThingRepository as arg
 type ThingHandler struct {
 	datastore *models.ThingRepository
 }
 
+// NewHandler - Creates new instance of ThingHandler
 func NewHandler(datastore *models.ThingRepository) *ThingHandler {
 	return &ThingHandler{
 		datastore,
 	}
 }
 
+// FindAll - Handler to find all the things
 func (handler *ThingHandler) FindAll(c echo.Context) error {
 
 	things, err := handler.datastore.FindAll()
@@ -45,6 +50,7 @@ func (handler *ThingHandler) FindAll(c echo.Context) error {
 	})
 }
 
+// Insert - Handler to insert a thing
 func (handler *ThingHandler) Insert(c echo.Context) error {
 	var thing models.Thing
 

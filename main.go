@@ -11,6 +11,7 @@ import (
 	"runtime"
 )
 
+// Init - Bootstrap runtime options
 func Init() {
 
 	// Verbose logging

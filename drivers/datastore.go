@@ -2,10 +2,9 @@ package drivers
 
 import (
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-// Datastore - fetch instance of mongodb session
+// DB - fetch instance of mongodb session
 func DB() *gorm.DB {
 
 	db, err := gorm.Open("postgres", "postgres://postgres@localhost/postgres?sslmode=disable")
