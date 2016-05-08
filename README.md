@@ -1,3 +1,5 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/EwanValentine/api-starter)](https://goreportcard.com/report/github.com/EwanValentine/api-starter)
+
 # Golang // Postgres // Echo API Starter
 
 This is a starter codebase for building API's in Golang. This includes, Postgres for the database driver and echo for the framework. This example also uses fasthttp. 
