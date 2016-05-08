@@ -12,6 +12,10 @@ Note: this is mostly for my own convenience, as I write a lot of microservices i
 
 You can build this the easy way `go build`, or `go run main.go`. Or you can use `make`, which builds a linux binary, which you can use with the Docker image.
 
+## Configure
+
+You must have a `config.json` file in your project root (see example.config.json). 
+
 ## Run
 
 Again, you can run it on your host `go run main.go` or `./api-starter` if you've already compiled the binary. Or you can run within Docker `make run` (be sure to have ran `make` first for this). 
