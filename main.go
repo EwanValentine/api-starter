@@ -21,6 +21,12 @@ func Init() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 }
 
+type Config struct {
+	Port   int `json:"port"`
+	DBHost int `json:"db_host"`
+	DBPass int `json:"db_pass"`
+}
+
 func main() {
 
 	Init()
@@ -50,7 +56,7 @@ func main() {
 	}))
 
 	thingRepository := models.NewThingRepository(datastore)
-	handlers := handlers.NewHandler(thingRepository)
+	handlers := handlers.NewThingHandler(thingRepository)
 
 	e.GET("/api/v1/things", handlers.FindAll)
 	e.POST("/api/v1/things", handlers.Insert)

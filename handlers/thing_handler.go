@@ -6,13 +6,7 @@ import (
 	"net/http"
 )
 
-// Http error
-type Error struct {
-	Message string `json:"_message"`
-	Code    int    `json:"_code"`
-}
-
-// Http response
+// Response - Http response
 type Response struct {
 	Data interface{}            `json:"data"`
 	Meta map[string]interface{} `json:"_meta"`
@@ -24,7 +18,7 @@ type ThingHandler struct {
 }
 
 // NewHandler - Creates new instance of ThingHandler
-func NewHandler(datastore *models.ThingRepository) *ThingHandler {
+func NewThingHandler(datastore *models.ThingRepository) *ThingHandler {
 	return &ThingHandler{
 		datastore,
 	}
