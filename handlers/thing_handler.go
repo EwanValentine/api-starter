@@ -6,8 +6,9 @@ import (
 	"net/http"
 )
 
-type Null struct {
+type Error struct {
 	Message string `json:"_message"`
+	Code    int    `json:"_code"`
 }
 
 type Response struct {
@@ -15,24 +16,25 @@ type Response struct {
 	Meta map[string]interface{} `json:"_meta"`
 }
 
-type Handler struct {
-	datastore *models.Repository
+type ThingHandler struct {
+	datastore *models.ThingRepository
 }
 
-func NewHandler(datastore *models.Repository) *Handler {
-	return &Handler{
+func NewHandler(datastore *models.ThingRepository) *ThingHandler {
+	return &ThingHandler{
 		datastore,
 	}
 }
 
-func (handler *Handler) FindAll(c echo.Context) error {
-	limit := c.QueryParam("limit")
-	offset := c.QueryParam("offset")
+func (handler *ThingHandler) FindAll(c echo.Context) error {
 
-	things, err := handler.datastore.FindAll(limit, offset)
+	things, err := handler.datastore.FindAll()
 
 	if err != nil {
-		return c.JSON(404, http.StatusNotFound)
+		return c.JSON(404, &Error{
+			Code:    http.StatusNotFound,
+			Message: "No things found",
+		})
 	}
 
 	return c.JSON(200, &Response{
