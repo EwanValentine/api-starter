@@ -6,12 +6,6 @@ import (
 	"net/http"
 )
 
-// Response - Http response
-type Response struct {
-	Data interface{}            `json:"data"`
-	Meta map[string]interface{} `json:"_meta"`
-}
-
 // ThingHandler - accepts ThingRepository as arg
 type ThingHandler struct {
 	datastore *models.ThingRepository
@@ -30,10 +24,7 @@ func (handler *ThingHandler) FindAll(c echo.Context) error {
 	things, err := handler.datastore.FindAll()
 
 	if err != nil {
-		return c.JSON(http.StatusNotFound, &Error{
-			Code:    http.StatusNotFound,
-			Message: "No things found",
-		})
+		return c.JSON(http.StatusNotFound, NotFound)
 	}
 
 	return c.JSON(200, &Response{
@@ -53,10 +44,7 @@ func (handler *ThingHandler) Insert(c echo.Context) error {
 	err := handler.datastore.Insert(thing)
 
 	if err != nil {
-		return c.JSON(422, &Error{
-			Code:    422,
-			Message: "Unprocessable entity",
-		})
+		return c.JSON(422, Unprocessable)
 	}
 
 	return c.JSON(http.StatusCreated, nil)
