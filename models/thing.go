@@ -25,6 +25,11 @@ type Thing struct {
 	Amount    int    `json:"amount"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
+
+	// This is a pointer so's a nil value can be returned
+	// Gorm by default checks DeletedAt, so unless nil is
+	// returned, a blank time will always be checked,
+	// resulting in 0 results.
 	DeletedAt *time.Time
 }
 
