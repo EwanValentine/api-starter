@@ -1,5 +1,5 @@
 FROM centurylink/ca-certs
 WORKDIR /app
 COPY api /app/
-COPY config.json /api/config.json
+COPY config.json /app/config.json
 ENTRYPOINT ["./api"]
