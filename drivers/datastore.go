@@ -5,7 +5,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-// DB - fetch instance of mongodb session
+// DB - fetch instance of postgres session
 func DB(user, pass, host, name string) *gorm.DB {
 
 	var connection string
